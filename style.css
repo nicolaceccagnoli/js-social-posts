@@ -123,3 +123,12 @@ h1 {
     color: #0CD977;
     cursor: default;
 }
+
+.profile-user {
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: rgb(180, 177, 177);
+}
