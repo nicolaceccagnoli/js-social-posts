@@ -89,8 +89,6 @@ printPosts(posts, container);
 // Seleziono i tasto dei "Mi Piace" dall'HTML
 const likeButtons = document.querySelectorAll('.js-like-button');
 
-// Dichiaro una Variabile che prenda l'attributo "data-postid" dai bottoni del "Mi Piace"
-
 // Creo un ciclo che scorra l'Array dei pulsanti con classe "js-like-button"
 for (let i = 0; i < likeButtons.length; i++){
 
@@ -101,13 +99,21 @@ for (let i = 0; i < likeButtons.length; i++){
             this.classList.toggle('like-button--liked');
             console.log('Cliccato Mi Piace')
 
-            // const postId = this.getAttribute('data-postid')
+            if ((this.classList.contains('like-button--liked')) && (!likedPosts.includes(posts[i].id))) {
 
-            if (!likedPosts.includes(posts[i].id)) {
                 // Pusho nell'Array dei LikedPosts l'ID del post corrispondente a cui ho messo "Mi Piace"
                 likedPosts.push(posts[i].id);
-            }
+                
+                document.getElementById(`like-counter-${posts[i].id}`).innerHTML = posts[i].likes + 1;;
 
+            } else {
+
+                likedPosts.pop(posts[i].id);
+
+                document.getElementById(`like-counter-${posts[i].id}`).innerHTML = posts[i].likes;
+                
+            }
+            
             console.log(likedPosts);
 
     });
