@@ -58,7 +58,7 @@ const posts = [
         "media": "https://unsplash.it/600/400?image=24",
         "author": {
             "name": "Luca Formicola",
-            "image": null
+            "image": "https://unsplash.it/300/300?image="
         },
         "likes": 56,
         "created": "2021-04-03"
@@ -76,6 +76,9 @@ const posts = [
     }
 ];
 
+// Dichiaro un secondo array che contiene l'id dei post ai quali ho messo "Mi Piace"
+const likedPosts = [];
+
 // Dichiaro una Variabile che selezioni dall'HTML il contenitore dei Post
 const container = document.getElementById('container');
 console.log('Questo è il contenitore dei post', container, typeof container);
@@ -84,17 +87,29 @@ console.log('Questo è il contenitore dei post', container, typeof container);
 printPosts(posts, container);
 
 // Seleziono i tasto dei "Mi Piace" dall'HTML
-const likeButton = document.querySelectorAll('.js-like-button');
+const likeButtons = document.querySelectorAll('.js-like-button');
+
+// Dichiaro una Variabile che prenda l'attributo "data-postid" dai bottoni del "Mi Piace"
 
 // Creo un ciclo che scorra l'Array dei pulsanti con classe "js-like-button"
-for (let i = 0; i < likeButton.length; i++){
+for (let i = 0; i < likeButtons.length; i++){
 
         // Creo l'evento 'click' sul bottone i-esimo
-        likeButton[i].addEventListener('click', function(){
+        likeButtons[i].addEventListener('click', function(){
 
-        // Aggiungo la classe per cui il bottone i-esimo si colori di verde una volta clickato
-        likeButton[i].classList.add('like-button--liked');
-        console.log('Cliccato Mi Piace')
+            // Aggiungo la classe per cui il bottone i-esimo si colori di verde una volta clickato
+            this.classList.toggle('like-button--liked');
+            console.log('Cliccato Mi Piace')
+
+            // const postId = this.getAttribute('data-postid')
+
+            if (!likedPosts.includes(posts[i].id)) {
+                // Pusho nell'Array dei LikedPosts l'ID del post corrispondente a cui ho messo "Mi Piace"
+                likedPosts.push(posts[i].id);
+            }
+
+            console.log(likedPosts);
+
     });
 
 };
@@ -110,36 +125,36 @@ function printPosts(arr, div) {
     // Creo un ciclo che vada a stampare nel Contenitore le Immagini e le loro Descrizioni
 arr.forEach((element, i, array) =>{
     div.innerHTML += `
-                        <div class="post">
-                            <div class="post__header">
-                                <div class="post-meta">                    
-                                    <div class="post-meta__icon">
-                                        <img class="profile-pic" src="${posts[i].author.image}" alt="Phil Mangione">                    
-                                    </div>
-                                    <div class="post-meta__data">
-                                        <div class="post-meta__author">${posts[i].author.name}</div>
-                                        <div class="post-meta__time">${posts[i].created}.</div>
-                                    </div>                    
+                    <div class="post">
+                        <div class="post__header">
+                            <div class="post-meta">                    
+                                <div class="post-meta__icon">
+                                    <img class="profile-pic" src="${posts[i].author.image}" alt="Phil Mangione">                    
                                 </div>
+                                <div class="post-meta__data">
+                                    <div class="post-meta__author">${posts[i].author.name}</div>
+                                    <div class="post-meta__time">${posts[i].created}.</div>
+                                </div>                    
                             </div>
-                            <div class="post__text">${posts[i].content}</div>
-                            <div class="post__image">
-                                <img src="${posts[i].media}" alt="">
-                            </div>
-                            <div class="post__footer">
-                                <div class="likes js-likes">
-                                    <div class="likes__cta">
-                                        <a class="like-button  js-like-button" href="#" data-postid="${posts[i].id}">
-                                            <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
-                                            <span class="like-button__label">Mi Piace</span>
-                                        </a>
-                                    </div>
-                                    <div class="likes__counter">
-                                        Piace a <b id="like-counter-1" class="js-likes-counter">${posts[i].likes}</b> persone
-                                    </div>
-                                </div> 
-                            </div>            
                         </div>
+                        <div class="post__text">${posts[i].content}</div>
+                        <div class="post__image">
+                            <img src="${posts[i].media}" alt="">
+                        </div>
+                        <div class="post__footer">
+                            <div class="likes js-likes">
+                                <div class="likes__cta">
+                                    <a class="like-button  js-like-button" href="#nogo" data-postid="${posts[i].id}">
+                                        <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
+                                        <span class="like-button__label">Mi Piace</span>
+                                    </a>
+                                </div>
+                                <div class="likes__counter">
+                                    Piace a <b id="like-counter-${posts[i].id}" class="js-likes-counter">${posts[i].likes}</b> persone
+                                </div>
+                            </div> 
+                        </div>            
+                    </div>
                     `
 })
 
