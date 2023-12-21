@@ -101,24 +101,21 @@ for (let i = 0; i < likeButtons.length; i++){
         likeButtons[i].addEventListener('click', function(){
 
             // Aggiungo la classe per cui il bottone i-esimo si colori di verde una volta clickato
-            this.classList.toggle('like-button--liked');
             console.log('Cliccato Mi Piace')
 
-            if ((this.classList.contains('like-button--liked')) && (!likedPosts.includes(posts[i].id))) {
+            if ((!likedPosts.includes(posts[i].id))) {
 
                 // Pusho nell'Array dei LikedPosts l'ID del post corrispondente a cui ho messo "Mi Piace"
                 likedPosts.push(posts[i].id);
-                
-                document.getElementById(`like-counter-${posts[i].id}`).innerHTML = posts[i].likes + 1;;
+                this.classList.add('like-button--liked');
+                document.getElementById(`like-counter-${posts[i].id}`).innerHTML = posts[i].likes + 1;
 
             } else {
-
-                likedPosts.pop(posts[i].id);
-
+                this.classList.remove('like-button--liked');
                 document.getElementById(`like-counter-${posts[i].id}`).innerHTML = posts[i].likes;
-                
+                likedPosts.shift(posts[i].id);
             }
-            
+
             console.log(likedPosts);
 
     });
